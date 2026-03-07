@@ -1,1 +1,152 @@
+Використала цей код для MatLab
+%% Завантаження зображень
+I1 = imread('football.jpg');   % зчитування зображення football
+I2 = imread('coins.png');      % зчитування зображення coins
+I3 = imread('pout.tif');       % зчитування зображення pout
 
+
+%% Відображення трьох зображень в одному вікні
+figure
+subplot(1,3,1)
+imshow(I1)
+title('football')              % підпис першого зображення
+
+subplot(1,3,2)
+imshow(I2)
+title('coins')                 % підпис другого зображення
+
+subplot(1,3,3)
+imshow(I3)
+title('pout')                  % підпис третього зображення
+
+
+%% Відображення кожного зображення окремо
+figure
+imshow(I1)
+title('Image 1')               % показ першого зображення
+
+figure
+imshow(I2)
+title('Image 2')               % показ другого зображення
+
+figure
+imshow(I3)
+title('Image 3')               % показ третього зображення
+
+
+%% Відображення стандартних зображень в одному вікні
+figure('Name','Стандартні зображення')
+
+subplot(1,3,1)
+imshow(I1)
+title('football.jpg')
+
+subplot(1,3,2)
+imshow(I2)
+title('coins.png')
+
+subplot(1,3,3)
+imshow(I3)
+title('pout.tif')
+
+
+%% Завантаження іншого зображення
+I3 = imread('onion.png');      % заміна третього зображення на onion
+
+
+%% Повторне відображення з новим зображенням
+figure('Name','Стандартні зображення')
+
+subplot(1,3,1)
+imshow(I1)
+title('football.jpg')
+
+subplot(1,3,2)
+imshow(I2)
+title('coins.png')
+
+subplot(1,3,3)
+imshow(I3)
+title('onion.png')
+
+
+%% Додавання шуму до зображення coins
+I_gauss = imnoise(I2,'gaussian',0,0.01);        % гаусів шум
+I_sp = imnoise(I2,'salt & pepper',0.05);        % шум "сіль і перець"
+
+
+%% Відображення зашумлених зображень
+figure('Name','Зашумлені зображення')
+
+subplot(1,3,1)
+imshow(I2)
+title('Оригінал')             % початкове зображення
+
+subplot(1,3,2)
+imshow(I_gauss)
+title('Gaussian noise')       % зображення з гаусівським шумом
+
+subplot(1,3,3)
+imshow(I_sp)
+title('Salt & Pepper noise')  % зображення з шумом "сіль і перець"
+
+
+%% Створення низькочастотного фільтра
+h_low = fspecial('average',3);    % фільтр усереднення 3x3
+
+I_low = imfilter(I2,h_low);       % застосування низькочастотного фільтра
+
+
+%% Створення високочастотного фільтра
+h_high = fspecial('laplacian',0.2);   % лапласів фільтр
+
+I_high = imfilter(I2,h_high);         % застосування високочастотного фільтра
+
+
+%% Відображення результатів фільтрації
+figure('Name','Фільтровані зображення')
+
+subplot(1,3,1)
+imshow(I2)
+title('Оригінал')
+
+subplot(1,3,2)
+imshow(I_low)
+title('Low-pass filter')        % результат низькочастотної фільтрації
+
+subplot(1,3,3)
+imshow(I_high)
+title('High-pass filter')       % результат високочастотної фільтрації
+
+
+%% Фільтрація зашумлених зображень
+I_gauss_filt = imfilter(I_gauss,h_low);   % фільтрація гаусівського шуму
+I_sp_filt = imfilter(I_sp,h_low);         % фільтрація шуму "сіль і перець"
+
+
+%% Відображення результатів фільтрації шуму
+figure ('Name','Фільтрація зашумлених зображень')
+
+subplot(1,2,1)
+imshow(I_gauss_filt)
+title('Gaussian noise filtered')
+
+subplot(1,2,2)
+imshow(I_sp_filt)
+title('Salt & Pepper filtered')
+
+
+%% Wiener фільтр
+I_wiener = wiener2(I_sp,[5 5]);      % адаптивний фільтр Вінера
+
+figure ('Name','Вінерівський фільтр')
+imshow(I_wiener)
+title('Wiener filter')
+
+
+%% Медіанний фільтр
+I_median = medfilt2(I_sp,[3 3]);     % медіанний фільтр для видалення шуму
+
+figure ('Name','Медіанний фільтр')
+imshow(I_median)
+title('Median filter')
