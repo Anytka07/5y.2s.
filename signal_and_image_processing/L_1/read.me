@@ -1,1 +1,122 @@
+clc;
+clear;
+close all;
+
+%% 1. Завантажити стандартні зображення з бібліотеки MATLAB
+I1 = imread('peppers.png');      % кольорове PNG
+I2 = imread('cameraman.tif');    % чорно-біле TIFF
+I3 = imread('saturn.png');       % кольорове PNG
+
+figure('Name','Стандартні зображення');
+subplot(1,3,1);
+imshow(I1);
+title('peppers.png');
+
+subplot(1,3,2);
+imshow(I2);
+title('cameraman.tif');
+
+subplot(1,3,3);
+imshow(I3);
+title('saturn.png');
+
+
+%% 2. Завантажити зображення з довільного каталогу
+I4 = imread('C:\Users\User\Pictures\photo.jpg');
+
+figure('Name','Зображення з каталогу');
+imshow(I4);
+title('Зображення з ПК');
+
+
+%% 3. Одержати інформацію про зображення
+disp('Інформація про peppers.png');
+info1 = imfinfo('peppers.png');
+disp(info1);
+
+disp('Інформація про cameraman.tif');
+info2 = imfinfo('cameraman.tif');
+disp(info2);
+
+disp('Інформація про saturn.png');
+info3 = imfinfo('saturn.png');
+disp(info3);
+
+% Інформація про змінні
+whos I1 I2 I3 I4
+
+
+%% 4. Зберегти зображення у заданий каталог
+imwrite(I1,'C:\Users\User\Desktop\peppers_copy.jpg');
+imwrite(I2,'C:\Users\User\Desktop\cameraman_copy.jpg');
+imwrite(I3,'C:\Users\User\Desktop\saturn_copy.jpg');
+
+
+%% 5. Побудувати гістограми яскравостей
+
+% Для кольорового потрібно перевести у grayscale
+I1_gray = rgb2gray(I1);
+I3_gray = rgb2gray(I3);
+
+figure('Name','Гістограми');
+
+subplot(1,3,1);
+imhist(I1_gray);
+title('Гістограма peppers');
+
+subplot(1,3,2);
+imhist(I2);
+title('Гістограма cameraman');
+
+subplot(1,3,3);
+imhist(I3_gray);
+title('Гістограма saturn');
+
+
+%% 6. Контрастування зображень (imadjust)
+I1_adjust = imadjust(I1_gray);
+I2_adjust = imadjust(I2);
+I3_adjust = imadjust(I3_gray);
+
+
+%% 7. Відобразити контрастовані зображення
+
+figure('Name','Контрастування');
+
+subplot(3,2,1);
+imshow(I1_gray);
+title('peppers - оригінал');
+
+subplot(3,2,2);
+imshow(I1_adjust);
+title('peppers - контраст');
+
+subplot(3,2,3);
+imshow(I2);
+title('cameraman - оригінал');
+
+subplot(3,2,4);
+imshow(I2_adjust);
+title('cameraman - контраст');
+
+subplot(3,2,5);
+imshow(I3_gray);
+title('saturn - оригінал');
+
+subplot(3,2,6);
+imshow(I3_adjust);
+title('saturn - контраст');
+
+
+%% 8. Отримати негатив зображення
+
+I2_negative = imcomplement(I2);
+
+figure('Name','Негатив');
+imshow(I2_negative);
+title('Негатив cameraman');
+
+
+%% 9. Ознайомлення з help imadjust
+help imadjust
 
