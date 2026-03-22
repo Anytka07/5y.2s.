@@ -1,1 +1,65 @@
+clc
+clear
+close all
+
+1. Завантажити тестове зображення
+
+I = imread('pout.tif');  
+
+
+2. Відобразити вихідне зображення
+
+figure
+imshow(I)
+title('Оригінальне зображення')
+
+
+3. Перекручення зображення
+
+LEN = 25;      % довжина розмиття
+THETA = 45;    % кут
+
+PSF = fspecial('motion', LEN, THETA);
+
+I_blur = imfilter(I, PSF, 'conv', 'circular');
+
+
+4. Показати перекручене
+
+figure
+imshow(I_blur)
+title('Перекручене зображення')
+
+
+5. Відновлення
+
+I_restore = deconvwnr(I_blur, PSF);
+
+
+6. Показати відновлене
+
+figure
+imshow(I_restore)
+title('Відновлене зображення')
+
+
+7. Додати шум
+
+NSR = 0.01;   % коефіцієнт шуму
+
+I_restore = deconvwnr(I_blur, PSF, NSR);
+
+figure
+
+subplot(1,3,1)
+imshow(I)
+title('Оригінал')
+
+subplot(1,3,2)
+imshow(I_blur)
+title('Blur+шум')
+
+subplot(1,3,3)
+imshow(I_restore)
+title('Відновлене покращене')
 
